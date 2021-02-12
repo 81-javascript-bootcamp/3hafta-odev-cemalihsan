@@ -13,17 +13,36 @@ const petsModule = (function(){
             type: "Domestic Shorthair",
             sound: "meow",
             soundText: "Meow - type m"
+        },
+        {
+          image:"https://pet-uploads.adoptapet.com/0/0/0/100049810.jpg",
+          name:"Billy",
+          type:"British Shorthair",
+          sound:"meow",
+          soundText:"Meow - type m"
+        },
+        {
+          image:"https://pet-uploads.adoptapet.com/0/0/0/119376018.jpg",
+          name:"Sasha",
+          type:"Terrier",
+          sound:"bark",
+          soundText:"Bark - type b"
         }
     ];
     const $tbodyEl = document.querySelector("tbody");
     const $buttons= document.querySelectorAll("button");
+    const $rows = $tbodyEl.getElementsByTagName("tr")
 
     const getButtons = function(){
         return document.querySelectorAll("button");
     }
 
+    const getImages = function(){
+        return document.getElementsByClassName("pet-image")
+    }
+
     const createPetElement = function(pet){
-        return "<tr><td><img class='pet-image' src='"+pet.image+"' /></td><td>"+pet.name+"</td><td>"+pet.type+"</td><td><button data-sound='"+pet.sound+"'>"+pet.soundText+"</button></td></tr>"
+        return "<tr><td><img class='pet-image' src='"+pet.image+"' /></td><td>"+pet.name+"</td><td>"+pet.type+"</td><td><button id='soundButton' data-sound='"+pet.sound+"'>"+pet.soundText+"</button></td></tr>"
     };
 
     const addToTable = function(content){
@@ -36,10 +55,49 @@ const petsModule = (function(){
         }
     }
 
+    const playVoice = function(){
+        document.addEventListener("keydown", function(e){
+            if(e.keyCode == 66){
+                document.getElementById('bark').play()
+            }
+            if(e.keyCode == 77){
+                document.getElementById('meow').play()
+            }
+        })
+    }
+
+    const clickRowElement = function(){
+        let main_image = document.getElementById("main_image")
+        for(let i = 0; i < $rows.length; i++){
+            $rows[i].addEventListener('click', function(e){
+                //1st option:
+                //$rows[i].style.backgroundColor = "gray"
+                //2nd option:
+                main_image.src = $rows[i].querySelector('td > img').src
+                $rows[i].classList.add('selectedRow')
+
+            })
+
+        }
+    }
+
+    /*
+    const profileImgClicked = function(){
+        let images = getImages()
+        let main_image = document.getElementById("main_image")
+        for(let i = 0; i < images.length; i++){
+            images[i].addEventListener('click', function(e){
+                main_image.src = images[i].src
+            })
+        }
+
+    }
+    */
     const bindEvents = function(){
         const buttons = getButtons();
         for(let i= 0; i< buttons.length; i++){
             buttons[i].addEventListener("click", function(event){
+                event.stopPropagation()
                 const soundId = this.dataset.sound;
                 const soundElement = document.getElementById(soundId);
                 if(soundElement){
@@ -52,6 +110,9 @@ const petsModule = (function(){
     const init = function(){
         putPetsInHtml();
         bindEvents();
+        playVoice();
+        clickRowElement();
+        //profileImgClicked();
     }
 
     return {
