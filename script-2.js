@@ -13,6 +13,20 @@ const petsModule = (function(){
             type: "Domestic Shorthair",
             sound: "meow",
             soundText: "Meow - type m"
+        },
+        {
+          image:"https://pet-uploads.adoptapet.com/0/0/0/100049810.jpg",
+          name:"Billy",
+          type:"British Shorthair",
+          sound:"meow",
+          soundText:"Meow - type m"
+        },
+        {
+          image:"https://pet-uploads.adoptapet.com/0/0/0/119376018.jpg",
+          name:"Sasha",
+          type:"Terrier",
+          sound:"bark",
+          soundText:"Bark - type b"
         }
     ];
     const $tbodyEl = document.querySelector("tbody");
@@ -56,7 +70,9 @@ const petsModule = (function(){
         let main_image = document.getElementById("main_image")
         for(let i = 0; i < $rows.length; i++){
             $rows[i].addEventListener('click', function(e){
+                //1st option:
                 //$rows[i].style.backgroundColor = "gray"
+                //2nd option:
                 main_image.src = $rows[i].querySelector('td > img').src
                 $rows[i].classList.add('selectedRow')
 
